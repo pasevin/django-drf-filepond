@@ -287,7 +287,7 @@ def get_stored_upload_file_data(stored_upload):
     # See if the stored file with the path specified in su exists
     # in the file store location
     bytes_io = None
-    file_path = os.path.join(file_path_base, stored_upload.file_path)
+    file_path = os.path.join(file_path_base, stored_upload.file.name)
     if storage_backend:
         if not storage_backend.exists(file_path):
             LOG.error('File [%s] for upload_id [%s] not found on remote '
@@ -313,7 +313,7 @@ def get_stored_upload_file_data(stored_upload):
             LOG.error('Error reading requested file: %s' % str(e))
             raise e
 
-    filename = os.path.basename(stored_upload.file_path)
+    filename = os.path.basename(stored_upload.file.name)
     return (filename, bytes_io)
 
 
@@ -363,7 +363,7 @@ def delete_stored_upload(upload_id, delete_file=False):
 
         file_path_base = local_settings.FILE_STORE_PATH
 
-    file_path = os.path.join(file_path_base, su.file_path)
+    file_path = os.path.join(file_path_base, su.file.name)
     if storage_backend:
         if not storage_backend.exists(file_path):
             LOG.error('Stored upload file [%s] with upload_id [%s] is not '
