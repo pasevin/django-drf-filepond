@@ -158,7 +158,7 @@ def _store_upload_local(destination_file_path, destination_file_name,
                               ' to the specified location - file exists.')
 
     su = StoredUpload(upload_id=temp_upload.upload_id,
-                      file_path=destination_file_path,
+                      file=destination_file_path,
                       uploaded=temp_upload.uploaded,
                       uploaded_by=temp_upload.uploaded_by)
 
@@ -187,7 +187,7 @@ def _store_upload_remote(destination_file_path, destination_file_name,
     try:
         storage_backend.save(destination_file, temp_upload.file)
         su = StoredUpload(upload_id=temp_upload.upload_id,
-                          file_path=destination_file,
+                          file=destination_file,
                           uploaded=temp_upload.uploaded,
                           uploaded_by=temp_upload.uploaded_by)
         su.save()
@@ -239,7 +239,7 @@ def get_stored_upload(upload_id):
         # Try and lookup a StoredUpload record with the specified id
         # as the file path
         try:
-            su = StoredUpload.objects.get(file_path=upload_id)
+            su = StoredUpload.objects.get(file=upload_id)
         except StoredUpload.DoesNotExist as e:
             LOG.debug('A StoredUpload with the provided file path '
                       'doesn\'t exist. Re-raising error')
